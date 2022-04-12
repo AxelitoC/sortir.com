@@ -4,12 +4,17 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity("email")
+ * @UniqueEntity("pseudo")
  */
+
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
@@ -21,8 +26,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank()
      */
     private $email;
+
 
     /**
      * @ORM\Column(type="json")
@@ -37,21 +44,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=45)
+     *@Assert\NotBlank()
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=45)
+     * @Assert\NotBlank()
      */
     private $prenom;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank()
      */
     private $pseudo;
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\NotBlank()
      */
     private $telephone;
 
