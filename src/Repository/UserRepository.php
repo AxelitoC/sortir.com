@@ -18,19 +18,30 @@ use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
+class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface, UserLoaderInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
     }
 
-    public function loadUserByUsername($usernameOrEmail) : ?User
+    /**
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function loadUserByUsername(string $usernameOrEmail): ?User
     {
-        return $this->createQueryBuilder('u')
-            ->where('u.username = :query OR u.email = :query')
+        $entityManager = $this->getEntityManager();
+
+        return $entityManager->createQuery(
+            'SELECT u
+                FROM App\Entity\User u
+                WHERE u.pseudo = :query
+                AND u.actif = 1
+                OR u.email = :query
+                AND u.actif = 1
+                '
+        )
             ->setParameter('query', $usernameOrEmail)
-            ->getQuery()
             ->getOneOrNullResult();
     }
 
