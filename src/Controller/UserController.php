@@ -51,7 +51,6 @@ class UserController extends AbstractController
         }
         return $this->render('user/modif_user.html.twig', [
             "form" => $form->createView()
-
         ]);
     }
 }
