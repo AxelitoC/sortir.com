@@ -2,6 +2,7 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     paths:
         '%kernel.project_dir%/templates/partials': 'partials'
+    form_themes: ['bootstrap_5_layout.html.twig']
 
 when@test:
     twig:
