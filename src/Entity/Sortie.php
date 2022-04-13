@@ -10,6 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=SortieRepository::class)
  */
+
+
+// TODO : Ajouter une colonne publiée afin de vérfier si une sortie est publiée ou seulement eneregistée
+
+
 class Sortie
 {
     /**
