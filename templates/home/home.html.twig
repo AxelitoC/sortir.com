@@ -98,7 +98,7 @@
                         <td>{{ i.etat.libelle }}</td>
                         <td>X</td>
                         <td>SPinoz A.</td>
-                        <td><a href="#">Afficher</a></td>
+                        <td><a href="{{ path('afficher', { id:i.id}) }}">Afficher</a></td>
                     </tr>
                 {% endfor %}
 
