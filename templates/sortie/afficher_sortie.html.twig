@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1 style="text-align: center">Affichage d'une sortie</h1>
+    <div >
+        <p>Nom de la sortie : </p>{{ sortie.nom }}
+        <p>Date et Heure de la sortie : </p>{{ sortie.dateHeureDebut | date('Y-m-d H:i:s') }}
+        <p>Date limite d'inscription : </p>{{ sortie.dateLimiteInscription | date('Y-m-d H:i:s')  }}
+        <p>Nombre de places : </p>{{ sortie.nbInscriptionsMax }}
+        <p>Durée : </p>{{ sortie.duree  }}
+        <p>Description et infos : </p>{{ sortie.infoSortie }}
+        <p>Ville organisatrice : </p>{{ sortie.site }}
+        <p>Lieu : </p>{{ sortie.lieu }}
+        <p>Rue : </p>{{ sortie.lieu.rue }}
+        <p>Code postal : </p>{{ sortie.lieu.ville.codePostal }}
+    </div>
+
+{% endblock %}
