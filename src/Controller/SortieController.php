@@ -6,9 +6,7 @@ use App\Entity\Sortie;
 use App\Form\NewSortieFormType;
 
 use App\Repository\EtatRepository;
-use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +17,10 @@ class SortieController extends AbstractController
 {
     /**
      * @Route("/sortie", name="new_sortie")
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param EtatRepository $er
+     * @return Response
      */
     public function create(Request $request, EntityManagerInterface $em, EtatRepository $er): Response
     {
