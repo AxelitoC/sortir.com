@@ -7,8 +7,11 @@ use App\Form\NewSortieFormType;
 
 use App\Repository\SortieRepository;
 use App\Repository\EtatRepository;
+use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -47,11 +50,27 @@ class SortieController extends AbstractController
         }
 
 
-
-
-
         return $this->render('sortie/new_sortie.html.twig', [
             'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/afficher/{id}", name="afficher")
+     * @param $id
+     * @param SortieRepository $sr
+     * @return RedirectResponse|Response
+     */
+    public function show(int $id, SortieRepository $sr): Response{
+
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $sortie = $sr->findOneBy(['id' => $id]);
+
+        return $this->render('sortie/afficher_sortie.html.twig', [
+            'sortie' => $sortie
         ]);
     }
 }
