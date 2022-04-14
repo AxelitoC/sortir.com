@@ -12,7 +12,7 @@
                 function chargerListeLieux(){
                         $.ajax({
                                 method: "POST",
-                                url: "/sortir/public/ajax", /* appel de la fonction rechercheLieuByVille du controlleur AjaxController*/
+                                url: "/sortir.com/public/ajax", /* appel de la fonction rechercheLieuByVille du controlleur AjaxController*/
                                 data: {
                                         'ville_id' : $('#new_sortie_form_ville').val() //recupération de la ville dans la data
                                 }
