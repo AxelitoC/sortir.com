@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Sortie;
 use App\Form\NewSortieFormType;
+
 use App\Repository\SortieRepository;
+use App\Repository\EtatRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,13 +18,21 @@ class SortieController extends AbstractController
     /**
      * @Route("/sortie", name="new_sortie")
      */
-    public function create(Request $request, EntityManagerInterface $em): Response
+    public function create(Request $request, EntityManagerInterface $em, EtatRepository $er): Response
     {
+        if (!$this->getUser()) {
+        return $this->redirectToRoute('app_login');
+        }
+
         $sortie = new Sortie();
         $form = $this->createForm(NewSortieFormType::class, $sortie);
         $form->handleRequest($request);
+        $etat = $er->findOneBy(['libelle' => 'Créee']);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() ) {
+            $sortie->setSite($this->getUser()->getSite());
+            $sortie->setEtat($etat);
+            $sortie->addUser($this->getUser());//Lier l'utilisateur à une sortie
             $em->persist($sortie);
             $em->flush();
 

@@ -30,7 +30,7 @@ class Ville
     private $codePostal;
 
     /**
-     * @ORM\OneToMany(targetEntity=Lieu::class, mappedBy="ville")
+     * @ORM\OneToMany(targetEntity=Lieu::class, fetch="EAGER", mappedBy="ville")
      */
     private $lieus;
 
@@ -96,5 +96,8 @@ class Ville
         }
 
         return $this;
+    }
+    public function __toString(){
+        return $this->nom;
     }
 }
