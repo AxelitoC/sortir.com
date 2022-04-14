@@ -1,0 +1,15 @@
+{% extends('base.html.twig') %}
+
+{% block body %}
+    <div class="container">
+        <h1 style="text-align: center">{{ user.pseudo }}</h1>
+
+        <div class="col-md-12">
+            <p>Prénom : {{ user.prenom }}</p>
+            <p>Nom : {{ user.nom }}</p>
+            <p>Téléphone : {{ user.telephone }}</p>
+            <p>Email : {{ user.email }}</p>
+            <p>Ville de ratachement : {{ user.site.nom }}</p>
+        </div>
+    </div>
+{% endblock %}

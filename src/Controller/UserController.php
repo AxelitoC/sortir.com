@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\ModifUserType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use http\Env\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -55,9 +56,18 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/modif", name="modif")
+     * @Route("/{id}", name="user.profile")
      */
-    public function profile(): Response {
-        return $this->render('user/profile.html.twig');
+    public function profile($id, UserRepository $uR): Response {
+
+        $user = $uR->findOneBy(['id' => $id, 'actif' => true]);
+
+        if ($user === null) {
+           throw $this->createNotFoundException();
+        }
+
+        return $this->render('user/profile.html.twig', [
+            'user' => $user
+        ]);
     }
 }
