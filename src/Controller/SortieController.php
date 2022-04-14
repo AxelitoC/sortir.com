@@ -28,14 +28,25 @@ class SortieController extends AbstractController
         $etat = $er->findOneBy(['libelle' => 'Créee']);
 
         if ($form->isSubmitted() && $form->isValid() ) {
+
             $sortie->setSite($this->getUser()->getSite());
             $sortie->setEtat($etat);
             $sortie->addUser($this->getUser());//Lier l'utilisateur à une sortie
+
+        if($form->get('online')->isClicked()){
+            $sortie->setOnline(true);
+        }else{
+            $sortie->setOnline(false);
+        }
             $em->persist($sortie);
             $em->flush();
 
             return $this->redirectToRoute('affichage');
         }
+
+
+
+
 
         return $this->render('sortie/new_sortie.html.twig', [
             'form' => $form->createView()

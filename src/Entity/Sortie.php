@@ -6,6 +6,7 @@ use App\Repository\SortieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Boolean;
 
 /**
  * @ORM\Entity(repositoryClass=SortieRepository::class)
@@ -77,9 +78,27 @@ class Sortie
      */
     private $etat;
 
+    /**
+     * @ORM\Column (type="boolean")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $online;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
+    }
+
+    public function getOnline(): Bool
+    {
+        return $this->online;
+    }
+
+    public function setOnline(Bool $online): self
+    {
+        $this->online = $online;
+
+        return $this;
     }
 
     public function getId(): ?int
