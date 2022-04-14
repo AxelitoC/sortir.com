@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Sortie;
 use App\Form\NewSortieFormType;
+use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,5 +32,16 @@ class SortieController extends AbstractController
         return $this->render('sortie/new_sortie.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+    public function findAll(Request $request, EntityManagerInterface $entityManager, SortieRepository $repository): response{
+
+       $sortie=$repository->findAll();
+
+        return $this->render('sortie/new_sortie.html.twig', [
+                        'sortie'=>$sortie
+            ]
+
+        );
+
     }
 }

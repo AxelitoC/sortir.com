@@ -90,14 +90,16 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <th>Philo</th>
-                    <td>19/07/2018 23:45</td>
-                    <td>19/07/2018</td>
-                    <td>8/8</td>
-                    <td>En cours</td>
+                    {% for i in sortie%}
+                    <th>{{ i.name }}</th>
+                    <td>{{ i.dateHeureDebut }}</td>
+                    <td>{{ i.dateLimiteInscription }}</td>
+                    <td>{{ i.nbInscriptionMax }}</td>
+                    <td>{{ i.etat }}</td>
                     <td>X</td>
                     <td>SPinoz A.</td>
                     <td><a href="#">Afficher</a></td>
+                    {% endfor %}
                 </tr>
                 <tr>
                     <th>Philo</th>
