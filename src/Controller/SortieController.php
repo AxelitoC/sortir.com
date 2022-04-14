@@ -43,15 +43,4 @@ class SortieController extends AbstractController
             'form' => $form->createView()
         ]);
     }
-    public function findAll(Request $request, EntityManagerInterface $entityManager, SortieRepository $repository): response{
-
-       $sortie=$repository->findAll();
-
-        return $this->render('sortie/new_sortie.html.twig', [
-                        'sortie'=>$sortie
-            ]
-
-        );
-
-    }
 }

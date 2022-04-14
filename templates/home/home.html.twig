@@ -5,8 +5,8 @@
 {% block body %}
     <div class="row">
         <div class="col-md-4 offset-md-10">
-            <h4>Date du jour : {{ "now" | date('d/m/Y')  }}</h4>
-             <h4>Participant : {{ app.user.nom }} . {{ app.user.prenom | first }}</h4>
+            <h4>Date du jour : {{ "now" | date('d/m/Y') }}</h4>
+            <h4>Participant : {{ app.user.nom }} . {{ app.user.prenom | first }}</h4>
         </div>
     </div>
 
@@ -43,7 +43,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3" >
+            <div class="col-md-3">
                 <div class="form-group mt-2">
                     <input id="" type="checkbox" class="form-check-input" checked>
                     <label for="">Sorties dont je suis l'organisateur/trice</label>
@@ -89,38 +89,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    {% for i in sortie%}
-                    <th>{{ i.name }}</th>
-                    <td>{{ i.dateHeureDebut }}</td>
-                    <td>{{ i.dateLimiteInscription }}</td>
-                    <td>{{ i.nbInscriptionMax }}</td>
-                    <td>{{ i.etat }}</td>
-                    <td>X</td>
-                    <td>SPinoz A.</td>
-                    <td><a href="#">Afficher</a></td>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    <th>Philo</th>
-                    <td>19/07/2018 23:45</td>
-                    <td>19/07/2018</td>
-                    <td>8/8</td>
-                    <td>En cours</td>
-                    <td>X</td>
-                    <td>SPinoz A.</td>
-                    <td><a href="#">Afficher</a></td>
-                </tr>
-                <tr>
-                    <th>Philo</th>
-                    <td>19/07/2018 23:45</td>
-                    <td>19/07/2018</td>
-                    <td>8/8</td>
-                    <td>En cours</td>
-                    <td>X</td>
-                    <td>SPinoz A.</td>
-                    <td><a href="#">Afficher</a></td>
-                </tr>
+                {% for i in sortie %}
+                    <tr>
+                        <th>{{ i.nom }}</th>
+                        <td>{{ i.dateHeureDebut | date('Y-m-d H:i:s') }}</td>
+                        <td>{{ i.dateLimiteInscription |date('Y-m-d') }}</td>
+                        <td>{{ i.nbInscriptionsMax }}</td>
+                        <td>{{ i.etat.libelle }}</td>
+                        <td>X</td>
+                        <td>SPinoz A.</td>
+                        <td><a href="#">Afficher</a></td>
+                    </tr>
+                {% endfor %}
+
                 </tbody>
             </table>
 
