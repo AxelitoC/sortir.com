@@ -5,8 +5,8 @@ namespace App\Controller;
 use App\Entity\Sortie;
 use App\Form\NewSortieFormType;
 
-use App\Repository\SortieRepository;
 use App\Repository\EtatRepository;
+use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;

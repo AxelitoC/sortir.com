@@ -18,7 +18,7 @@ class HomeController extends AbstractController
      */
     public function affichage(LieuRepository $lieuRepository, Request $request, EntityManagerInterface $entityManager, SortieRepository $repository): Response
     {
-        $sortie=$repository->findAll();
+        $sortie=$repository->findBy(['online'=>true]);
 
         return $this->render('home/home.html.twig', [
             'sortie'=>$sortie
