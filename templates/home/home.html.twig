@@ -100,10 +100,10 @@
                         <td>SPinoz A.</td>
                         <td>
                             <a href="{{ path('afficher_sortie', { id:i.id}) }}">Afficher</a>
-                            <a href="#"> S'nscrire </a>
+                            <a href="{{ path('inscrire', { id: i.id }) }}"> S'nscrire </a>
                             <a href="#"> Se désister </a>
                             <a href="{{ path('modifier_sortie') }}"> Modifier </a>
-                            <a href="#"> Publier </a>
+                            <a href="{{ path('publier', {id: i.id}) }}"> Publier </a>
                             <a href="#">Annuler</a>
                         </td>
                     </tr>

@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SortieController extends AbstractController
@@ -116,5 +117,60 @@ class SortieController extends AbstractController
         return $this->render('sortie/afficher_sortie.html.twig', [
             'sortie' => $sortie
         ]);
+    }
+
+    /**
+     * @Route("/inscrire/{id}", name="inscrire")
+     * @return Response
+     */
+    public function inscrire(int $id, SortieRepository $r, EntityManagerInterface $em): Response {
+
+        // une requete pour trouver la sortie par rapport a son identifiant
+        $sortie = $r->findOneBy(['id' => $id]);
+
+        if (!$sortie) {
+            throw new NotFoundHttpException();
+        }
+
+        if ($sortie->getOrganisateur()->getUserIdentifier() === $this->getUser()->getUserIdentifier()) {
+            $this->addFlash('danger', 'Tu es le créateur de la sortie. Inscription impossible, connard !');
+
+            return $this->redirectToRoute('affichage');
+        }
+
+        $sortie->addUser($this->getUser());
+
+        $em->persist($sortie);
+        $em->flush();
+
+        // Vérifier que l'utilisateur n'est pas acutellement isncrit
+
+        $this->addFlash('success','Vous êtes bien inscrit à la sortie : ' . $sortie->getNom());
+
+        return $this->redirectToRoute('affichage');
+    }
+
+    /**
+     * @Route("/publier/{id}", name="publier")
+     * @param int $id
+     * @return Response
+     */
+    public function publier(int $id, SortieRepository $r, EntityManagerInterface $em): Response {
+
+        $sortie = $r->findOneBy(['id' => $id]);
+
+        if (!$sortie) {
+            throw new NotFoundHttpException();
+        }
+
+        if ($sortie->getOrganisateur()->getUserIdentifier() != $this->getUser()->getUserIdentifier()) {
+            throw new NotFoundHttpException();
+        }
+
+        $sortie->setOnline(true);
+        $em->persist($sortie);
+        $em->flush();
+        $this->addFlash('success', 'Votre sortie à bien été publier');
+        return $this->redirectToRoute('affichage');
     }
 }
