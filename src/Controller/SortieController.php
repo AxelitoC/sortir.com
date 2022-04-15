@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Sortie;
+use App\Form\ModifierSortieFormType;
 use App\Form\NewSortieFormType;
 
 use App\Repository\EtatRepository;
@@ -58,7 +59,48 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/afficher/{id}", name="afficher")
+     * @Route("/modifier", name="modifier_sortie")
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param EtatRepository $er
+     * @return Response
+     */
+    public function modification(\Symfony\Component\HttpFoundation\Request $request, EntityManagerInterface $em,UserPasswordHasherInterface $passwordHasher): Response
+    {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $user = $this->getUser();
+        $form = $this->createForm(ModifierSortieFormType::class, $user);
+        $form->handleRequest($request);
+        $originalPassword = $user ->getPassword();
+        if ($form->isSubmitted() && $form->isValid()) {
+            //encode the plain password
+            if(!empty($form['password']->getData())) {
+
+                $user->setPassword($passwordHasher->hashPassword($user, $form['password']->getData()));
+
+            } else {
+
+                $user->setPassword($originalPassword);
+
+            }
+
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirectToRoute('user_modif');
+        }
+        return $this->render('user/modif_user.html.twig', [
+            "form" => $form->createView()
+        ]);
+    }
+
+
+
+/**
+     * @Route("/afficher/{id}", name="afficher_sortie")
      * @param $id
      * @param SortieRepository $sr
      * @return RedirectResponse|Response
