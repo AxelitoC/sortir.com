@@ -37,4 +37,29 @@ class AjaxController extends AbstractController
             }
     }
 
+    /**
+     * @Route("/ajax/lieu", name="ajax_lieu")
+     * @param LieuRepository $lieuRepository
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return Response
+     */
+    public function rechercheLieuByLieu(LieuRepository $lieuRepository, \Symfony\Component\HttpFoundation\Request $request): Response
+    {
+        $json_data = [];
+        $i = 0;
+
+        $lieux = $lieuRepository->findBy(['ville' => $request->request->get('ville_id')]);
+
+        if (sizeof($lieux)>0){
+            foreach ($lieux as $lieu){
+                $json_data [$i++] = ['id' =>$lieu->getId(), 'nom'=>$lieu->getNom(), 'rue' =>$lieu->getRue(), 'codePostale'=>$lieu->getVille()->getCodePostal()];
+            }
+            return new JsonResponse($json_data);
+        }else{
+            $json_data [$i++] = ['id' => '', 'nom' => 'Pas de lieu pour cette destination'];
+
+            return new JsonResponse($json_data);
+        }
+    }
+
 }

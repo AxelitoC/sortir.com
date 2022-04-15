@@ -3,8 +3,15 @@
 namespace App\Form;
 
 use App\Entity\Sortie;
+use App\Entity\Ville;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ModifierSortieFormType extends AbstractType
@@ -19,12 +26,20 @@ class ModifierSortieFormType extends AbstractType
             ->add('nbInscriptionsMax')
             ->add('infoSortie')
             ->add('online')
-            ->add('user')
             ->add('site')
-            ->add('lieu')
-            ->add('etat')
-        ;
+            ->add('lieu', ChoiceType::class, [
+                'data'=> ,
+            ])
+            ->add('codepostale', TextType::class, [
+                'disabled' => true,
+                'mapped' => false,
+            ])
+            ->add('rue', TextType::class, [
+                'disabled' => true,
+                'mapped' => false,
+            ]);
     }
+
 
     public function configureOptions(OptionsResolver $resolver): void
     {
@@ -33,3 +48,7 @@ class ModifierSortieFormType extends AbstractType
         ]);
     }
 }
+
+
+
+
