@@ -84,6 +84,17 @@ class Sortie
      */
     private $online;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="organisateur")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $organisateur;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $motif;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -234,6 +245,30 @@ class Sortie
     public function setEtat(?Etat $etat): self
     {
         $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getOrganisateur(): ?User
+    {
+        return $this->organisateur;
+    }
+
+    public function setOrganisateur(?User $organisateur): self
+    {
+        $this->organisateur = $organisateur;
+
+        return $this;
+    }
+
+    public function getMotif(): ?string
+    {
+        return $this->motif;
+    }
+
+    public function setMotif(?string $motif): self
+    {
+        $this->motif = $motif;
 
         return $this;
     }

@@ -6,6 +6,7 @@ use App\Entity\Etat;
 use App\Entity\Lieu;
 use App\Entity\Site;
 use App\Entity\Sortie;
+use App\Entity\User;
 use App\Entity\Ville;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -49,6 +50,8 @@ class SortirFixture extends Fixture
         $sortie2->setSite($site);
         $sortie->setLieu($lieu);
         $sortie2->setLieu($lieu);
+        $sortie->setOnline(true);
+        $sortie2->setOnline(false);
 
         $manager->persist($site);
         $manager->persist($lieu);

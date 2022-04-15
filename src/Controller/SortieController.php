@@ -38,7 +38,7 @@ class SortieController extends AbstractController
 
             $sortie->setSite($this->getUser()->getSite());
             $sortie->setEtat($etat);
-            $sortie->addUser($this->getUser());//Lier l'utilisateur à une sortie
+            $sortie->setOrganisateur($this->getUser());
 
         if($form->get('online')->isClicked()){
             $sortie->setOnline(true);
