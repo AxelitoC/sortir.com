@@ -118,8 +118,8 @@ class SortieController extends AbstractController
             throw new NotFoundHttpException();
         }
 
-        if ($sortie->getOrganisateur()->getUserIdentifier() === $this->getUser()->getUserIdentifier()) {
-            $this->addFlash('danger', 'Tu es le créateur de la sortie. Inscription impossible, connard !');
+        if ($sortie->getOrganisateur()->getId() === $this->getUser()->getId()) {
+            $this->addFlash('danger', 'Tu es le créateur de la sortie. Inscription impossible !');
 
             return $this->redirectToRoute('affichage');
         }
