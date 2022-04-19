@@ -26,7 +26,6 @@ class ModifierSortieFormType extends AbstractType
             ->add('dateLimiteInscription')
             ->add('nbInscriptionsMax')
             ->add('infoSortie')
-            ->add('online')
             ->add('site')
             //->add('lieu', ChoiceType::class, [
             //    'data'=> ,
@@ -42,6 +41,7 @@ class ModifierSortieFormType extends AbstractType
             ->add('online', SubmitType::class,[
                 'label'=> 'Publier une sortie'
             ]);
+
     }
 
 

@@ -45,6 +45,7 @@
     {{ form_widget(form) }}
     <button type="submit" class="btn btn-primary">Enregister</button>
     <a href="{{ path('affichage') }}" class="btn btn-primary">Annuler</a>
+    <a href="{{ path('remove_sortie',{id :sortie.id}) }}" class="btn btn-primary"> Supprimer </a>
     {{ form_end(form) }}
 {% endblock %}
 
