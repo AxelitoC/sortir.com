@@ -17,6 +17,11 @@ class HomeController extends AbstractController
      */
     public function affichage(LieuRepository $lieuRepository, Request $request, EntityManagerInterface $entityManager, SortieRepository $repository): Response
     {
+
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
         $sortie=$repository->findBy(['online'=>true]);
 
         return $this->render('home/home.html.twig', [
