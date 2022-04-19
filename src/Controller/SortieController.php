@@ -74,17 +74,21 @@ class SortieController extends AbstractController
 
         if($form->isSubmitted() && $form ->isValid()){
             $this->redirectToRoute('affichage');
+            if($form->get('online')->isClicked()){
+                $sortie->setOnline(true);
+            }else{
+                $sortie->setOnline(false);
+            }
+            $em->persist($sortie);
+            $em->flush();
+            return $this->redirectToRoute('affichage');
         }
 
         return $this->render('sortie/modifier_sortie.html.twig', [
             'form'=>$form->createView(),
             'sortie' => $sortie
         ]);
-
-
     }
-
-
 
 /**
      * @Route("/afficher/{id}", name="afficher_sortie")
