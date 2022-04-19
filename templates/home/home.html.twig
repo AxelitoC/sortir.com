@@ -99,19 +99,20 @@
                         <td>X</td>
                         <td>{{ i.organisateur.pseudo }}</td>
                         <td>
-                            <a href="{{ path('afficher_sortie', { id:i.id}) }}">Afficher</a>
-                            <a href="{{ path('inscrire', { id: i.id }) }}"> S'nscrire </a>
-                            <a href="{{ path('desister', { id: i.id }) }}"> Se désister </a>
-                            <a href="{{ path('publier', {id: i.id}) }}"> Publier </a>
+                            {% if i.id == app.user.id %}
+                                <a href="{{ path('desister', {id:i.id}) }}"> Se désister </a>
+                                {% else %}
+                            {% endif %}
+                            <a href="{{ path('afficher_sortie', {id:i.id}) }}">Afficher</a>
+                            <a href="{{ path('inscrire', {id:i.id}) }}"> S'inscrire </a>
+                            <a href="{{ path('publier', {id:i.id}) }}"> Publier </a>
                             <a href="{{ path('modifier_sortie', {id:i.id}) }}"> Modifier </a>
                             <a href="{{ path('annuler', {id:i.id}) }}">Annuler</a>
                         </td>
                     </tr>
                 {% endfor %}
-
                 </tbody>
             </table>
-
             <div class="row">
                 <div class="col-md-12">
                     <a href="{{ path('new_sortie') }}" class="btn btn-lg btn-primary">Créer une sortie</a>

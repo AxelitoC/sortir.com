@@ -84,6 +84,7 @@ class SortieController extends AbstractController
             }
             $em->persist($sortie);
             $em->flush();
+            $this->addFlash('success', 'Sortie Modifier!');
             return $this->redirectToRoute('affichage');
         }
 
@@ -261,7 +262,7 @@ class SortieController extends AbstractController
         $sortie=$sortieRepository->findOneBy(['id'=>$id]);
         $em->remove($sortie);
         $em->flush();
-        $this->addFlash('sucess', 'Sortie supprimer!');
+        $this->addFlash('success', 'Sortie supprimer!');
         return $this->redirectToRoute('affichage');
     }
 }
