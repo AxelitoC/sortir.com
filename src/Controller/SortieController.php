@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Sortie;
+use App\Form\AnnulerFormType;
 use App\Form\ModifierSortieFormType;
 use App\Form\NewSortieFormType;
 
@@ -146,6 +147,8 @@ class SortieController extends AbstractController
     /**
      * @Route("/publier/{id}", name="publier")
      * @param int $id
+     * @param SortieRepository $r
+     * @param EntityManagerInterface $em
      * @return Response
      */
     public function publier(int $id, SortieRepository $r, EntityManagerInterface $em): Response {
@@ -163,7 +166,56 @@ class SortieController extends AbstractController
         $sortie->setOnline(true);
         $em->persist($sortie);
         $em->flush();
-        $this->addFlash('success', 'Votre sortie à bien été publier');
+        $this->addFlash('success', 'Votre sortie a bien été publiée');
         return $this->redirectToRoute('affichage');
+    }
+
+    /**
+     * @Route("/annuler/{id}", name="annuler")
+     * @param Request $request
+     * @param int $id
+     * @param SortieRepository $r
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
+
+    public function annuler (Request $request, int $id, SortieRepository $r, EntityManagerInterface $em): Response{
+
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $sortie = $r->findOneBy(['id' => $id]);
+        $date = date("Y-m-d H:i:s");
+
+
+        if (!$sortie) {
+            throw new NotFoundHttpException();
+        }
+
+        if ($sortie->getOrganisateur()->getUserIdentifier() != $this->getUser()->getUserIdentifier()) {
+            throw new NotFoundHttpException();
+        }
+
+        if($sortie->getDateHeureDebut()->format("Y-m-d H:i:s") < $date){
+            $this->addFlash('danger', "La sortie est déjà commencée, impossible d'annuler");
+            return $this->redirectToRoute('affichage');
+        }
+
+        $form = $this->createForm(AnnulerFormType::class, $sortie);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid() ) {
+            $sortie->setOnline(false);
+            $em->persist($sortie);
+            $em->flush();
+            $this->addFlash('success', 'Votre sortie a bien été annulée');
+            return $this->redirectToRoute('affichage');
+        }
+
+        return $this->render('sortie/annuler_sortie.html.twig',[
+            'form'=>$form->createView(),
+            'sortie'=>$sortie
+        ]) ;
     }
 }

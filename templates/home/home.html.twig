@@ -104,7 +104,7 @@
                             <a href="#"> Se désister </a>
                             <a href="{{ path('publier', {id: i.id}) }}"> Publier </a>
                             <a href="{{ path('modifier_sortie', {id:i.id}) }}"> Modifier </a>
-                            <a href="#">Annuler</a>
+                            <a href="{{ path('annuler', {id:i.id}) }}">Annuler</a>
                         </td>
                     </tr>
                 {% endfor %}
