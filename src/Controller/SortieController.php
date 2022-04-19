@@ -9,6 +9,8 @@ use App\Form\NewSortieFormType;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,7 +38,7 @@ class SortieController extends AbstractController
         $form->handleRequest($request);
         $etat = $er->findOneBy(['libelle' => 'Créee']);
 
-        if ($form->isSubmitted() && $form->isValid() ) {
+        if($form->isSubmitted() && $form->isValid() ) {
 
             $sortie->setSite($this->getUser()->getSite());
             $sortie->setEtat($etat);
@@ -197,5 +199,19 @@ class SortieController extends AbstractController
         $this->addFlash('success', "Vous n'êtes plus inscrit à cette sortie");
 
         return $this->redirectToRoute('affichage');
+
+        /**
+     * @Route("/supprimer/{id}", name="remove_sortie")
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
+
+    public function remove(int $id, SortieRepository $sortieRepository, EntityManagerInterface $em, Request $request): Response{
+        $sortie=$sortieRepository->findOneBy(['id'=>$id]);
+        $em->remove($sortie);
+        $em->flush();
+        $this->addFlash('sucess', 'Sortie supprimer!');
+        return  $this->redirectToRoute('affichage');
     }
 }

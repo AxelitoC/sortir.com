@@ -61,7 +61,6 @@ class NewSortieFormType extends AbstractType
             ->add('online', SubmitType::class,[
                'label'=> 'Publier une sortie'
             ]);
-
         $builder->get('ville')->addEventListener(
           FormEvents::POST_SUBMIT,
           function (FormEvent $event){
@@ -101,6 +100,7 @@ class NewSortieFormType extends AbstractType
                 ]
         );
     }
+
 
     public function configureOptions(OptionsResolver $resolver): void
     {
