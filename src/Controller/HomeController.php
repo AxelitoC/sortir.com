@@ -12,7 +12,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-
     /**
      * @Route("/", name="affichage")
      */
@@ -24,6 +23,5 @@ class HomeController extends AbstractController
             'sortie'=>$sortie
         ]);
     }
-
 
 }

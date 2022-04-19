@@ -43,7 +43,6 @@ class UserFixture extends Fixture
         $user2 -> setPassword($this ->passwordHasher->hashPassword($user, '456'));
         $user -> setSite($site);
         $user2 -> setSite($site2);
-        // $product = new Product();
         $manager->persist($site);
         $manager->persist($site2);
         $manager->persist($user);

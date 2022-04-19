@@ -104,8 +104,11 @@ class SortieController extends AbstractController
 
         $sortie = $sr->findOneBy(['id' => $id]);
 
+        $users = $sortie->getUser();
+
         return $this->render('sortie/afficher_sortie.html.twig', [
-            'sortie' => $sortie
+            'sortie' => $sortie,
+            'users'=>$users
         ]);
     }
 

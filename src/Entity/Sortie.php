@@ -56,7 +56,7 @@ class Sortie
     private $infoSortie;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="sorties")
+     * @ORM\ManyToMany(targetEntity=User::class,fetch="EAGER", inversedBy="sorties")
      */
     private $user;
 
