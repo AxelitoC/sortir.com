@@ -15,5 +15,25 @@
         <p>Rue : </p>{{ sortie.lieu.rue }}
         <p>Code postal : </p>{{ sortie.lieu.ville.codePostal }}
     </div>
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Pseudo</th>
+                    <th scope="col">Nom</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in users %}
+                    <tr>
+                        <th>{{ i.pseudo }}</th>
+                        <td>{{ i.nom}}</td>
+                    </tr>
+                {% endfor %}
 
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

@@ -74,7 +74,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $actif;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Sortie::class, mappedBy="user")
+     * @ORM\ManyToMany(targetEntity=Sortie::class, fetch="EAGER", mappedBy="user")
      */
     private $sorties;
 
