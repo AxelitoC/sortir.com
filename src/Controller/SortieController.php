@@ -125,9 +125,19 @@ class SortieController extends AbstractController
             throw new NotFoundHttpException();
         }
 
+
         if ($sortie->getOrganisateur()->getId() === $this->getUser()->getId()) {
             $this->addFlash('danger', 'Tu es le créateur de la sortie. Inscription impossible !');
 
+            return $this->redirectToRoute('affichage');
+
+        }
+
+        $date = date("Y-m-d");
+
+
+        if ($sortie->getDateLimiteInscription()->format('Y-m-d') < $date) {
+            $this->addFlash('danger', 'La date limite d\'inscription est dépassé inscription impossible');
             return $this->redirectToRoute('affichage');
         }
 
@@ -164,6 +174,28 @@ class SortieController extends AbstractController
         $em->persist($sortie);
         $em->flush();
         $this->addFlash('success', 'Votre sortie à bien été publier');
+        return $this->redirectToRoute('affichage');
+    }
+
+    /**
+     * @Route("/desister/{id}", name="desister")
+     * @param int $id
+     * @return Response
+     */
+    public function desister(int $id, SortieRepository $r, EntityManagerInterface $em): Response {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $sortie = $r->findOneBy(['id' => $id]);
+
+        $sortie->removeUser($this->getUser());
+
+        $em->persist($sortie);
+        $em->flush();
+
+        $this->addFlash('success', "Vous n'êtes plus inscrit à cette sortie");
+
         return $this->redirectToRoute('affichage');
     }
 }
