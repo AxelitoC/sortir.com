@@ -105,8 +105,11 @@ class SortieController extends AbstractController
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
+        $sortie = $sr->findOneByDate($id);
 
-        $sortie = $sr->findOneBy(['id' => $id]);
+        if (!$sortie) {
+            throw new NotFoundHttpException();
+        }
 
         $users = $sortie->getUser();
 
@@ -205,7 +208,8 @@ class SortieController extends AbstractController
         }
 
         if ($sortie->getOrganisateur()->getUserIdentifier() != $this->getUser()->getUserIdentifier()) {
-            throw new NotFoundHttpException();
+            $this->addFlash('danger', "Vous ne pouvez pas annuler cette sortie, vous n'êtes point l'organisateur");
+            return $this->redirectToRoute('affichage');
         }
 
         if ($sortie->getDateHeureDebut()->format("Y-m-d H:i:s") < $date) {
@@ -252,7 +256,7 @@ class SortieController extends AbstractController
 
     }
 
-        /**
+     /**
      * @Route("/supprimer/{id}", name="remove_sortie")
      * @param Request $request
      * @param EntityManagerInterface $em
