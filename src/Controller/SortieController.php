@@ -10,6 +10,8 @@ use App\Form\NewSortieFormType;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,7 +39,7 @@ class SortieController extends AbstractController
         $form->handleRequest($request);
         $etat = $er->findOneBy(['libelle' => 'Créee']);
 
-        if ($form->isSubmitted() && $form->isValid() ) {
+        if($form->isSubmitted() && $form->isValid() ) {
 
             $sortie->setSite($this->getUser()->getSite());
             $sortie->setEtat($etat);
@@ -175,11 +177,10 @@ class SortieController extends AbstractController
      * @param Request $request
      * @param int $id
      * @param SortieRepository $r
-     * @param EntityManagerInterface $em
-     * @return Response
      */
 
-    public function annuler (Request $request, int $id, SortieRepository $r, EntityManagerInterface $em): Response{
+    public function annuler (Request $request, int $id, SortieRepository $r, EntityManagerInterface $em): Response
+    {
 
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
@@ -197,7 +198,7 @@ class SortieController extends AbstractController
             throw new NotFoundHttpException();
         }
 
-        if($sortie->getDateHeureDebut()->format("Y-m-d H:i:s") < $date){
+        if ($sortie->getDateHeureDebut()->format("Y-m-d H:i:s") < $date) {
             $this->addFlash('danger', "La sortie est déjà commencée, impossible d'annuler");
             return $this->redirectToRoute('affichage');
         }
@@ -205,7 +206,7 @@ class SortieController extends AbstractController
         $form = $this->createForm(AnnulerFormType::class, $sortie);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() ) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $sortie->setOnline(false);
             $em->persist($sortie);
             $em->flush();
@@ -213,9 +214,23 @@ class SortieController extends AbstractController
             return $this->redirectToRoute('affichage');
         }
 
-        return $this->render('sortie/annuler_sortie.html.twig',[
-            'form'=>$form->createView(),
-            'sortie'=>$sortie
-        ]) ;
+        return $this->render('sortie/annuler_sortie.html.twig', [
+            'form' => $form->createView(),
+            'sortie' => $sortie
+        ]);
+    }
+
+     /**
+     * @Route("/supprimer/{id}", name="remove_sortie")
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
+    public function remove(int $id, SortieRepository $sortieRepository, EntityManagerInterface $em, Request $request): Response{
+        $sortie=$sortieRepository->findOneBy(['id'=>$id]);
+        $em->remove($sortie);
+        $em->flush();
+        $this->addFlash('sucess', 'Sortie supprimer!');
+        return $this->redirectToRoute('affichage');
     }
 }
