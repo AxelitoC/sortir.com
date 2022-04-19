@@ -27,9 +27,9 @@ class ModifierSortieFormType extends AbstractType
             ->add('infoSortie')
             ->add('online')
             ->add('site')
-            ->add('lieu', ChoiceType::class, [
-                'data'=> ,
-            ])
+            //->add('lieu', ChoiceType::class, [
+            //    'data'=> ,
+            //])
             ->add('codepostale', TextType::class, [
                 'disabled' => true,
                 'mapped' => false,
