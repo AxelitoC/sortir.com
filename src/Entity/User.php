@@ -89,6 +89,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $organisateur;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    public $photo_profil;
+
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
@@ -313,6 +318,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $organisateur->setOrganisateur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPhotoProfil(): ?string
+    {
+        return $this->photo_profil;
+    }
+
+    public function setPhotoProfil(?string $photo_profil): self
+    {
+        $this->photo_profil = $photo_profil;
 
         return $this;
     }
