@@ -3,8 +3,12 @@
 {% block body %}
     <div class="container">
         <h1 style="text-align: center">{{ user.pseudo }}</h1>
-
-        <div class="col-md-12">
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <img style="" height="150px" width="150px" src="{{ asset('img/' ~ user.photo_profil) }}">
+        </div>
+        <div class="col-md-6">
             <p>Prénom : {{ user.prenom }}</p>
             <p>Nom : {{ user.nom }}</p>
             <p>Téléphone : {{ user.telephone }}</p>
@@ -12,4 +16,5 @@
             <p>Ville de ratachement : {{ user.site.nom }}</p>
         </div>
     </div>
+
 {% endblock %}
