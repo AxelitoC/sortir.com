@@ -55,7 +55,7 @@
                                     X
                             {% endif %}
                         </td>
-                        <td>{{ i.organisateur.pseudo }}</td>
+                        <td><a href="{{ path('user_user.profile', {id:i.organisateur.id}) }}" >{{ i.organisateur.pseudo }}</td>
                         <td>
 
                             <a href="{{ path('afficher_sortie', {id:i.id}) }}" class="btn btn-ms btn-primary">Afficher</a>

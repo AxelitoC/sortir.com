@@ -78,6 +78,9 @@ class UserController extends AbstractController
 
     /**
      * @Route("/{id}", name="user.profile")
+     * @param $id
+     * @param UserRepository $uR
+     * @return Response
      */
     public function profile($id, UserRepository $uR): Response {
 
