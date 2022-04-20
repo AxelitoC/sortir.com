@@ -2,8 +2,18 @@
 
 {% block title %} {{ parent() }} {% endblock %}
 {% block body %}
-    {{ form_start(form) }}
-    {{ form_widget (form)}}
-    <input type="submit" class="btn btn-primary" value="Modifier">
-    {{ form_end(form) }}
+
+    <div class="row">
+        <div class="col-md-6">
+            <img style="" height="150px" width="150px" src="{{ asset('img/' ~ app.user.photo_profil) }}">
+        </div>
+        <div class="col-md-6">
+            {{ form_start(form) }}
+            {{ form_widget (form)}}
+            <input type="submit" class="btn btn-primary" value="Modifier">
+            {{ form_end(form) }}
+        </div>
+
+    </div>
+
 {% endblock %}
