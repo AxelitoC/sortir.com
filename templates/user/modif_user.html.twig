@@ -5,5 +5,8 @@
     {{ form_start(form) }}
     {{ form_widget (form)}}
     <input type="submit" class="btn btn-primary" value="Modifier">
+    <div>
+        <img  height="150px" width="150px" src="{{ asset('img/' ~ app.user.photo_profil) }}">
+    </div>
     {{ form_end(form) }}
 {% endblock %}
