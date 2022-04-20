@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\FilterFormType;
 use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,9 +25,21 @@ class HomeController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
+        $form = $this->createForm(FilterFormType::class);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted()) {
+
+            $search = $repository->filter($request->request->get('filter_form'), $this->getUser()->getId());
+            dump($search);
+            die();
+        }
+
         $sortie=$repository->findAllDate();
 
         return $this->render('home/home.html.twig', [
+            'form' => $form->createView(),
             'sortie'=>$sortie
         ]);
     }

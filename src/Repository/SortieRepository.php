@@ -79,4 +79,41 @@ class SortieRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
+
+    public function filter($value, $user) {
+        $query = $this->createQueryBuilder('s')
+        ->leftJoin('s.user', 'u');
+
+        if (!empty($value['campus'])) {
+            $query = $query->andWhere('s.site = :site')
+            ->setParameter('site', $value['campus']);
+        }
+
+        if (!empty($value['name'])) {
+            $query = $query->andWhere('s.nom LIKE :search')
+                ->setParameter('search', "%{$value['name']}%");
+        }
+
+        if (!empty($value['sortie_organisateur'])) {
+            $query = $query->andWhere('s.organisateur = :user')
+                ->setParameter('user', $user);
+
+        }
+
+        if (!empty($value['sortie_inscrite'])) {
+            $query = $query->andWhere('u = :user')
+                ->setParameter('user', $user);
+        }
+
+        if (!empty($value['sortie_non_inscrite'])) {
+
+        }
+
+        if (!empty($value['sortie_passees'])) {
+            // Un événement débute le 20/04 00h et qui dure 30 min est clotué à 00h31
+            $query = $query->andWhere("DATE_ADD(s.dateHeureDebut, s.duree, 'MINUTE') < CURRENT_TIMESTAMP()");
+        }
+
+        return $query->getQuery()->getResult();
+    }
 }
