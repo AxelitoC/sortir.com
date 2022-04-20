@@ -82,7 +82,7 @@ class SortieRepository extends ServiceEntityRepository
 
     public function filter($value, $user) {
         $query = $this->createQueryBuilder('s')
-        ->leftJoin('s.user', 'u');
+        ->join('s.user', 'u');
 
         if (!empty($value['campus'])) {
             $query = $query->andWhere('s.site = :site')
@@ -101,12 +101,11 @@ class SortieRepository extends ServiceEntityRepository
         }
 
         if (!empty($value['sortie_inscrite'])) {
-            $query = $query->andWhere('u = :user')
-                ->setParameter('user', $user);
+            $query = $query->andWhere('u = :user')->setParameter('user', $user);
         }
 
         if (!empty($value['sortie_non_inscrite'])) {
-
+            $query = $query->having('u.id is NULL');
         }
 
         if (!empty($value['sortie_passees'])) {

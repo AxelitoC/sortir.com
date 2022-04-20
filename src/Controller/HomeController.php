@@ -30,7 +30,6 @@ class HomeController extends AbstractController
 
 
         if ($form->isSubmitted()) {
-
             $search = $repository->filter($request->request->get('filter_form'), $this->getUser()->getId());
             dump($search);
             die();
