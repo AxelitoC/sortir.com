@@ -1,0 +1,37 @@
+{% extends('base.html.twig') %}
+
+{% block body %}
+    <div class="container">
+        <h1 style="text-align: center">Gérer les villes</h1>
+    </div>
+    <div>
+        <h3 style="text-align: left">Filtrer les villes</h3>
+    </div>
+    <div>
+        {{ form_start(form) }}{{ form_widget(form) }}<button type="submit" class="btn btn-primary">Rechercher</button>{{ form_end(form) }}
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                <h4>Liste des participants inscrits :</h4>
+                <tr>
+                    <th scope="col">Villes</th>
+                    <th scope="col">Code Postal</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in ville %}
+                    <tr>
+                        <th>{{ i.nom }}</th>
+                        <th>{{ i.codePostal }}</th>
+                        <th><a class="btn btn-primary">modifier</a><a class="btn btn-primary">supprimer</a></th>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

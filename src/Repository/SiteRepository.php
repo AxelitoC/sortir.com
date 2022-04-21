@@ -45,6 +45,15 @@ class SiteRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByName($value)
+    {
+        return $this->createQueryBuilder('v')
+            ->andWhere('v.nom LIKE :search')
+            ->setParameter('search', "%{$value}%")
+            ->getQuery()
+            ->getResult()
+            ;
+    }
     // /**
     //  * @return Site[] Returns an array of Site objects
     //  */
