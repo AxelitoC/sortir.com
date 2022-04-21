@@ -1,8 +1,21 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <style>
+        @media only screen and (min-width: 600px){
+            #boutton-retour{
+                display: none;
+            }
+        }
+        @media only screen and (max-width: 600px){
+            .title{
+                display: none;
+            }
+        }
+    </style>
+{% endblock %}
 
 {% block body %}
-
-    <h1 style="text-align: center">Affichage d'une sortie</h1>
+    <h1 style="text-align: center" class="title">Affichage d'une sortie</h1>
     <div >
         <p>Nom de la sortie : </p>{{ sortie.nom }}
         <p>Date et Heure de la sortie : </p>{{ sortie.dateHeureDebut | date('Y-m-d H:i:s') }}
@@ -34,6 +47,12 @@
                 {% endfor %}
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <a href="{{ path('affichage') }}" class="btn btn-ms btn-primary" id="boutton-retour"> < Retour</a>
         </div>
     </div>
 {% endblock %}

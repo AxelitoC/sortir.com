@@ -37,6 +37,7 @@
     </script>
 {% endblock %}
 {% block body %}
+
     <h1 style="text-align: center">Modifier sortie</h1>
     {{ form_start(form) }}
     {{ form_widget(form) }}
@@ -44,5 +45,7 @@
     <a href="{{ path('affichage') }}" class="btn btn-primary">Annuler</a>
     <a href="{{ path('remove_sortie',{id :sortie.id}) }}" class="btn btn-primary"> Supprimer </a>
     {{ form_end(form) }}
+
+
 {% endblock %}
 

@@ -2,26 +2,46 @@
 
 {% block title('Accueil') %}
 
+{% block stylesheets %}
+    <style>
+        @media only screen and (max-width: 600px) {
+            #tableaux, .formulaire, #boutton-sortie , .titre-filtre, #user{
+                display: none;
+            }
+            #tableaux_mobile{
+            }
+        }
+        @media only screen and (min-width: 600px){
+            #tableaux_mobile, .titre-mes_sortie{
+                display: none;
+            }
+
+        }
+    </style>
+
+{% endblock %}
+
 {% block body %}
 
     <div class="row">
-        <div class="col-md-4 offset-md-10">
+        <div class="col-md-4 offset-md-10" id="user">
             <h4>Date du jour : {{ "now" | date('d/m/Y') }}</h4>
         <h4>Participant : {{ app.user.nom }} . {{ app.user.prenom | first }}</h4>
     </div>
     </div>
 
-    <h3>Filter les sorties</h3>
-
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-
+    <h3 class="titre-filtre">Filter les sorties</h3>
+    <h2 class="titre-mes_sortie">Mes sortie :</h2>
+    <div class="formulaire">
+         {{ form_start(form) }}
+         {{ form_widget(form) }}
         <button type="submit" class="btn btn-primary">Rechercher</button>
-    {{ form_end(form) }}
+         {{ form_end(form) }}
+    </div>
 
     <div class="row mt-5">
         <div class="col-md-12">
-            <table class="table">
+            <table class="table"id="tableaux">
                 <thead>
                 <tr>
                     <th scope="col">Nom de la sortie</th>
@@ -35,6 +55,7 @@
                 </tr>
                 </thead>
                 <tbody>
+
                 {% for i in sortie %}
                     {% set registered = false %}
                     {% for user in i.user  %}
@@ -48,7 +69,7 @@
                         <td>{{ i.dateLimiteInscription |date('Y-m-d') }}</td>
                         <td>{{ i.nbInscriptionsMax }}</td>
                         <td>
-                                {{ i.etat.libelle }}
+                            {{ i.etat.libelle }}
                         </td>
                         <td>
                             {% if registered %}
@@ -72,12 +93,39 @@
                     </tr>
                 {% endfor %}
                 </tbody>
-            </table>
+
+                 <div class="row mt-5">
+                    <div class="col-md-12">
+                         <table class="table"id="tableaux_mobile">
+                             <thead>
+                             <tr>
+                                 <th scope="col">Nom de la sortie</th>
+                                 <th scope="col">Date de la sortie</th>
+                                 <th scope="col">Lieu</th>
+                             </tr>
+                             </thead>
+
+                        <tbody>
+                        <tr>
+                            <th>
+                                {% for i in app.user.sorties %}
+                                    <a href="{{ path('afficher_sortie', {id:i.id})}}">{{ i.nom }}</a>
+                            </th>
+                            <td>{{ i.dateHeureDebut|  date('Y-m-d H:i:s')}}</td>
+                            <td> {{ i.lieu.nom}} </td>
+                            {% endfor %}
+                        </tr>
+                        </tbody>
+                         </table>
+                    </div>
+                 </div>
+
             <div class="row">
                 <div class="col-md-12">
-                    <a href="{{ path('new_sortie') }}" class="btn btn-lg btn-primary">Créer une sortie</a>
+                    <a href="{{ path('new_sortie') }}" class="btn btn-lg btn-primary" id="boutton-sortie">Créer une sortie</a>
                 </div>
             </div>
         </div>
     </div>
+
 {% endblock %}
