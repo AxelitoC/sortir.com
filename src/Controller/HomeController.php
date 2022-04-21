@@ -17,6 +17,11 @@ class HomeController extends AbstractController
 {
     /**
      * @Route("/", name="affichage")
+     * @param LieuRepository $lieuRepository
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param SortieRepository $repository
+     * @return Response
      */
     public function affichage(LieuRepository $lieuRepository, Request $request, EntityManagerInterface $entityManager, SortieRepository $repository): Response
     {
@@ -31,8 +36,6 @@ class HomeController extends AbstractController
 
         if ($form->isSubmitted()) {
             $search = $repository->filter($request->request->get('filter_form'), $this->getUser()->getId());
-            dump($search);
-            die();
         }
 
         $sortie=$repository->findAllDate();
