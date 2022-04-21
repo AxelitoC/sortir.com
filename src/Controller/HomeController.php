@@ -29,17 +29,16 @@ class HomeController extends AbstractController
         $form->handleRequest($request);
 
 
+        $sortie=$repository->findAllDate();
+
         if ($form->isSubmitted()) {
-            $search = $repository->filter($request->request->get('filter_form'), $this->getUser()->getId());
-            dump($search);
-            die();
+                $sortie = $repository->filter($request->request->get('filter_form'), $this->getUser());
         }
 
-        $sortie=$repository->findAllDate();
 
         return $this->render('home/home.html.twig', [
             'form' => $form->createView(),
-            'sortie'=>$sortie
+            'sortie' =>$sortie,
         ]);
     }
 

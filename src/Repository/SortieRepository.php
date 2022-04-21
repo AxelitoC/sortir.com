@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Sortie;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -81,8 +82,7 @@ class SortieRepository extends ServiceEntityRepository
     }
 
     public function filter($value, $user) {
-        $query = $this->createQueryBuilder('s')
-        ->join('s.user', 'u');
+        $query = $this->createQueryBuilder('s');
 
         if (!empty($value['campus'])) {
             $query = $query->andWhere('s.site = :site')
@@ -101,11 +101,13 @@ class SortieRepository extends ServiceEntityRepository
         }
 
         if (!empty($value['sortie_inscrite'])) {
-            $query = $query->andWhere('u = :user')->setParameter('user', $user);
+            $ni = $this->getEntityManager()->getRepository(User::class)->find($user->getId());
+            $query = $query->andWhere(':user MEMBER OF s.user')->setParameter('user', $ni);
         }
 
         if (!empty($value['sortie_non_inscrite'])) {
-            $query = $query->having('u.id is NULL');
+            $ni = $this->getEntityManager()->getRepository(User::class)->find($user->getId());
+            $query = $query->andWhere(':user NOT MEMBER OF s.user')->setParameter('user', $ni);
         }
 
         if (!empty($value['sortie_passees'])) {

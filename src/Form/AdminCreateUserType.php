@@ -29,6 +29,7 @@ class AdminCreateUserType extends AbstractType
             ->add('prenom')
             ->add('pseudo')
             ->add('telephone')
+            ->add('site')
             ->add('actif')
         ;
 
