@@ -9,11 +9,16 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                <ul class="navbar-nav navbar-right mb-2 mb-lg-0">
                    <li class="nav-item">
+                       <a class="nav-link active" aria-current="page" href="{{ path('admin_gerer_ville') }}">Villes</a>
+                   </li>
+                   <li class="nav-item">
+                       <a class="nav-link active" aria-current="page" href="{{ path('admin_gerer_site') }}">Sites</a>
+                   </li>
+                   <li class="nav-item">
                        <a class="nav-link active" aria-current="page" href="{{ path('affichage') }}">Accueil</a>
                    </li>
                    <li class="nav-item">
                        <a class="nav-link" href="{{ path('user_modif') }}">Mon profil</a>
-
                    </li>
                    <li class="nav-item">
                        <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
