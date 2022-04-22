@@ -37,6 +37,7 @@ class HomeController extends AbstractController
         $sortie=$repository->findAllDate();
 
         if ($form->isSubmitted()) {
+            //dd($request->request->get('filter_form'));
             $sortie = $repository->filter($request->request->get('filter_form'), $this->getUser());
         }
 

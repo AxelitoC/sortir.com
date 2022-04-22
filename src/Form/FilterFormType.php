@@ -25,10 +25,10 @@ class FilterFormType extends AbstractType
                 'required' => false
             ])
             ->add('entre', DateType::class, [
-                'required' => false
+                'required' => false,
             ])
             ->add('et', DateType::class, [
-                'required' => false
+                'required' => false,
             ])
             ->add('sortie_organisateur', CheckboxType::class, [
                 'required' => false

@@ -100,6 +100,23 @@ class SortieRepository extends ServiceEntityRepository
 
         }
 
+        if (!empty($value['entre'])) {
+            $date = new \DateTime();
+            $date->setDate($value['entre']['year'], $value['entre']['month'], $value['entre']['day']);
+
+            $query = $query->andWhere('s.dateHeureDebut > :entre')
+                ->setParameter('entre', $date->format('Y-m-d'));
+        }
+
+        if (!empty($value['et'])) {
+            $date = new \DateTime();
+            $date->setDate($value['et']['year'], $value['et']['month'], $value['et']['day']);
+            $date->format('Y-m-d');
+
+            $query = $query->andWhere('s.dateHeureDebut < :et')
+                ->setParameter('et', $date->format('Y-m-d'));
+        }
+
         if (!empty($value['sortie_inscrite'])) {
             $ni = $this->getEntityManager()->getRepository(User::class)->find($user->getId());
             $query = $query->andWhere(':user MEMBER OF s.user')->setParameter('user', $ni);
