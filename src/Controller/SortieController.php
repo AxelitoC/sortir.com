@@ -148,7 +148,15 @@ class SortieController extends AbstractController
             return $this->redirectToRoute('affichage');
         }
 
+        if (!$sortie->getUser()->count() < $sortie->getNbInscriptionsMax()) {
+            $this->addFlash('danger', "Il n'y a plus de places");
+            return $this->redirectToRoute('affichage');
+        }
+
+
         $sortie->addUser($this->getUser());
+
+
 
         $em->persist($sortie);
         $em->flush();
