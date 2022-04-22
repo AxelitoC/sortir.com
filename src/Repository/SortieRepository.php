@@ -100,7 +100,7 @@ class SortieRepository extends ServiceEntityRepository
 
         }
 
-        if (!empty($value['entre'])) {
+        if (!isset($value['entre'])) {
             $date = new \DateTime();
             $date->setDate($value['entre']['year'], $value['entre']['month'], $value['entre']['day']);
 
@@ -108,7 +108,7 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('entre', $date->format('Y-m-d'));
         }
 
-        if (!empty($value['et'])) {
+        if (!isset($value['et'])) {
             $date = new \DateTime();
             $date->setDate($value['et']['year'], $value['et']['month'], $value['et']['day']);
             $date->format('Y-m-d');
