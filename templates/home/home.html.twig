@@ -10,6 +10,7 @@
             }
             #tableaux_mobile{
             }
+
         }
         @media only screen and (min-width: 600px){
             #tableaux_mobile, .titre-mes_sortie{
@@ -93,10 +94,9 @@
                     </tr>
                 {% endfor %}
                 </tbody>
-
                  <div class="row mt-5">
                     <div class="col-md-12">
-                         <table class="table"id="tableaux_mobile">
+                         <table class="table" id="tableaux_mobile">
                              <thead>
                              <tr>
                                  <th scope="col">Nom de la sortie</th>
@@ -106,15 +106,18 @@
                              </thead>
 
                         <tbody>
+                        {% for i in app.user.sorties %}
                         <tr>
+
                             <th>
-                                {% for i in app.user.sorties %}
-                                    <a href="{{ path('afficher_sortie', {id:i.id})}}">{{ i.nom }}</a>
+
+                                <a id="lien" href="{{ path('afficher_sortie', {id:i.id})}}">{{ i.nom }}</a>
                             </th>
-                            <td>{{ i.dateHeureDebut|  date('Y-m-d H:i:s')}}</td>
-                            <td> {{ i.lieu.nom}} </td>
-                            {% endfor %}
+                                <td>{{ i.dateHeureDebut|  date('Y-m-d H:i:s')}}</td>
+                                <td> {{ i.lieu.nom}} </td>
+
                         </tr>
+                        {% endfor %}
                         </tbody>
                          </table>
                     </div>
