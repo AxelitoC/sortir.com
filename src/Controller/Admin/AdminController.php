@@ -70,7 +70,7 @@ class AdminController extends AbstractController
 
         $form = $this->createForm(GererSiteType::class);
         $form->handleRequest($request);
-        $ville = $vr->findBy(['nom' => $form->get('nom')->getData()]);
+        $ville = $vr->searchByName($form->get('nom')->getData());
 
         return $this->render('admin/gererVille.html.twig', [
             'form' => $form->createView(),
@@ -93,7 +93,7 @@ class AdminController extends AbstractController
 
         $form = $this->createForm(GererSiteType::class);
         $form->handleRequest($request);
-        $ville = $sr->findBy(['nom' => $form->get('nom')->getData()]);
+        $ville = $sr->searchByName($form->get('nom')->getData());
 
         return $this->render('admin/gererSite.html.twig', [
             'form' => $form->createView(),
